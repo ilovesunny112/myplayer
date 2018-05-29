@@ -3,9 +3,11 @@ const HtmlPlugin = require("html-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const webpack = require('webpack');
 const {VueLoaderPlugin} = require("vue-loader");
+const ExtractPlugin = require("extract-text-webpack-plugin");
+
 
 module.exports = {
-    entry:"./src/main.js",
+    entry:path.join(__dirname, "src/main.js"),
     output:{
         path:path.join(__dirname,'dist'),
         filename:"bundle.js"
@@ -15,23 +17,45 @@ module.exports = {
             template:"./public/index.html",
             filename:"index.html",
             inject:"body",
-            title:"Welcome to my music player"
+            // title:"Welcome to my music player",
+            publichPath:"/"
         }),
-        new CleanPlugin(["./dist"],{
+        new CleanPlugin(["dist"],{
             //option
         }),
-        new webpack.NamedModulesPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new VueLoaderPlugin()       
+        new webpack.HotModuleReplacementPlugin() ,
+        // new webpack.NamedModulesPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
+        new VueLoaderPlugin(),
+        new ExtractPlugin("styles.[hash:8].css"),       
     ],
     module:{
         rules:[
             {
-                test:/\.js|jsx/,
-                use:[
-                    {loader:"babel-loader",
-                    exclude:/node_modules/}
+                test:/\.vue$/,
+                use:[ 
+                    "vue-loader"
                 ]
+            },
+            {
+                test:/\.jsx$/,
+                use:["babel-loader"]
+            },
+            {
+                test:/\.styl$/,
+                use:ExtractPlugin.extract({
+                    fallback:"style-loader",
+                    use:[
+                        "css-loader",
+                        {
+                            loader:"postcss-loader",
+                            options:{
+                                souceMap:true
+                            }
+                        },
+                        "stylus-loader"
+                    ]
+                })
             },
             {
                 test:/\.css/,
@@ -43,18 +67,12 @@ module.exports = {
                             module:true,
                             name:"assets/css/[name].[ext]"
                         }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        
                     }
-
                 ]
             },
             {
-                test:/\.(jpg|png|bmp|gif|svg|jpeg)/,
-                use:[
-                    
+                test:/\.(jpg|png|bmp|gif|jpeg)/,
+                use:[  
                     {
                         loader:"url-loader",
                         options:{
@@ -72,29 +90,19 @@ module.exports = {
                     name:"assets/fonts/[name]-[hash:base64].[ext]"
                   }
                 }]
-            },
-            {
-                test:/.vue$/,
-                use:[ 
-                    "vue-loader"
-                ]
-            },
-            {
-                test:/\.styl$/,
-                loader:'style-loader!css-loader!stylus-loader'
             }
+            
+           
         ]
     },
-    // stylus:{
-         
-    // },
+ 
     mode:"development",
     devServer:{
         host:"0.0.0.0",
         hot:true,
         open:true,
-        contentBase:"/",
-        publichPath:"/",
+        // contentBase:"/",
+        publicPath:"/",
         overlay:{
             warnings:true,
             errors:true
