@@ -4,7 +4,7 @@ const CleanPlugin = require("clean-webpack-plugin");
 const webpack = require('webpack');
 const {VueLoaderPlugin} = require("vue-loader");
 const ExtractPlugin = require("extract-text-webpack-plugin");
-
+const autoprefixer = require("autoprefixer")
 
 module.exports = {
     entry:path.join(__dirname, "src/main.js"),
@@ -27,13 +27,14 @@ module.exports = {
         // new webpack.NamedModulesPlugin(),
         // new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
-        new ExtractPlugin("styles.[hash:8].css"),       
+        new ExtractPlugin("styles.[chunkname].[hash:8].css"),       
     ],
     module:{
         rules:[
             {
                 test:/\.vue$/,
-                use:[ 
+                use:[
+                     
                     "vue-loader"
                 ]
             },
@@ -41,22 +42,7 @@ module.exports = {
                 test:/\.jsx$/,
                 use:["babel-loader"]
             },
-            {
-                test:/\.styl$/,
-                use:ExtractPlugin.extract({
-                    fallback:"style-loader",
-                    use:[
-                        "css-loader",
-                        {
-                            loader:"postcss-loader",
-                            options:{
-                                souceMap:true
-                            }
-                        },
-                        "stylus-loader"
-                    ]
-                })
-            },
+            
             {
                 test:/\.css/,
                 use:[
@@ -70,6 +56,34 @@ module.exports = {
                     }
                 ]
             },
+            {
+                test:/\.styl/,
+                use:ExtractPlugin.extract({
+                    fallback:"style-loader", 
+                    use:[
+                        "css-loader",
+                        {
+                            loader:"postcss-loader",
+                            // options:{
+                            //     souceMap:true,
+                            //     plugins:[
+                            //         autoprefixer({
+                            //             browsers:"cover 99.5%"
+                            //         })
+                            //     ]
+                            // }
+
+                        },
+                        "stylus-loader"
+                    ]
+                })
+            },
+
+            {
+                test:/\.less/,
+                loader:'style-loader!css-loader!less-loader'
+            },
+
             {
                 test:/\.(jpg|png|bmp|gif|jpeg)/,
                 use:[  
@@ -111,3 +125,6 @@ module.exports = {
     }
 
 }
+
+console.log("==============")
+console.log(this.resourcePath)
