@@ -10,9 +10,11 @@
         methods:{
             updateProgress(e){
                console.log(e.currentTarget)//e.target 是 事件源的对象  e.currentTarget 是注册了事件处理程序的对象 
-               var diff = e.clientX - e.currentTarget.offsetLeft,
+               var diff = e.clientX - e.currentTarget.getBoundingClientRect().left,
                     width = e.currentTarget.offsetWidth,
                     progress = (diff/width)*100
+
+                console.log(progress)
                 this.$emit("updateprogress",progress)
             }
         }

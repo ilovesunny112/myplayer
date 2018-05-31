@@ -1,11 +1,6 @@
 <template>
-  <div id="app">
-    <player-header></player-header>
-
-    <router-link to="/">Go to 根目录</router-link>
-    <router-link to="/bar">Go to Bar</router-link>
-     <router-view></router-view>
-    <player 
+  <div>
+     <player 
       :musicitem="this.$store.state.currentPlayItem" 
       @playTo="playFlag" 
       @toggleplay = "play" 
@@ -18,13 +13,11 @@
 <script>
 
 
-import './styles/reset.styl'
-import './styles/comman.styl'
-import HelloWorld from './components/HelloWorld.vue'
-import PlayerHeader from './components/Header.vue'
-import Player from './components/player.vue'
+import HelloWorld from '../components/HelloWorld.vue'
+ 
+import Player from '../components/player.vue'
 
-import {MUSIC_LIST} from './config/musiclist'
+import {MUSIC_LIST} from '../config/musiclist'
 
 
 
@@ -39,8 +32,7 @@ const routes = {
 export default {
   name: 'app',
   components: {
-    HelloWorld,
-    PlayerHeader,
+    HelloWorld, 
     Player
   },
   data(){
@@ -73,37 +65,12 @@ export default {
       this.$store.commit("setMusicList",MUSIC_LIST)
       console.log(this.$store)
 
-      $("#player").jPlayer({
-        supplied: "mp3",
-        wmode: "window",
-        useStateClassSkin: true
-		  });
-
-  		this.playMusic(this.$store.state.musicList[0]);
-      console.log($("#player").jPlayer())
-      $("#player").bind($.jPlayer.event.ended, (e) => {
-        this.playWhenEnd();
-      });
-
+       
       // window.setInterval(()=>{
       //   this.playNext()
       // },2000)
       
-
-      $("#player").bind($.jPlayer.event.timeupdate, (e) => {
-			 duration = e.jPlayer.status.duration;
-			// this.setState({
-			// 	progress: e.jPlayer.status.currentPercentAbsolute,
-			// 	volume: e.jPlayer.options.volume * 100,
-			// 	leftTime: this.formatTime(duration * (1 - e.jPlayer.status.currentPercentAbsolute / 100))
-      // });
-      this.$store.commit("setMusicInfo",{
-        progress:e.jPlayer.status.currentPercentAbsolute,
-        volume:e.jPlayer.options.volume,
-        leftTime:this.formatTime(duration * (1 - e.jPlayer.status.currentPercentAbsolute / 100))
-      })
-	  	});
-      
+ 
     },
     methods:{
       playMusic(item){

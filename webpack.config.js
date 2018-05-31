@@ -81,7 +81,17 @@ module.exports = {
 
             {
                 test:/\.less/,
-                loader:'style-loader!css-loader!less-loader'
+                use:ExtractPlugin.extract({
+                    fallback:"style-loader",
+                    use:[
+                        "css-loader",
+                        {
+                            loader:"postcss-loader"
+                        },
+                        "less-loader"
+                    ]   
+                })
+                //loader:'style-loader!css-loader!less-loader'
             },
 
             {
@@ -121,7 +131,9 @@ module.exports = {
             warnings:true,
             errors:true
         },
-        port:9000
+        port:9000,
+        historyApiFallback:true,
+        https:true
     }
 
 }

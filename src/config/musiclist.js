@@ -1,11 +1,5 @@
 export const MUSIC_LIST = [
-	{
-		id: 1,
-		title: '天使中的魔鬼',
-		artist: '田馥甄',
-		file: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.mp3',
-		cover: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.jpg'
-	}, {
+	 {
 		id: 2,
 		title: '风继续吹',
 		artist: '张国荣',
@@ -35,6 +29,13 @@ export const MUSIC_LIST = [
 		artist: 'Simon & Garfunkel',
 		file: 'http://oj4t8z2d5.bkt.clouddn.com/sound-of-silence.mp3',
 		cover: 'http://oj4t8z2d5.bkt.clouddn.com/sound-of-silence.jpg'
+	},
+	{
+		id: 1,
+		title: '天使中的魔鬼',
+		artist: '田馥甄',
+		file: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.mp3',
+		cover: 'http://oj4t8z2d5.bkt.clouddn.com/%E9%AD%94%E9%AC%BC%E4%B8%AD%E7%9A%84%E5%A4%A9%E4%BD%BF.jpg'
 	}
 
 ];
